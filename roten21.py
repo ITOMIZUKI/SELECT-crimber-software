@@ -63,10 +63,11 @@ class enco:
 
             self.precount = self.count
             self.deal()
-
+            
+            now_time = time.time() - iniitial_time
             # main for counting
             if self.precount != self.count:
-                now_time = time.time() - initial_time
+                #now_time = time.time() - initial_time
                 self.log[num] = [now_time, self.count]
                 num += 1
 
