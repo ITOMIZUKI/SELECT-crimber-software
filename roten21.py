@@ -69,15 +69,16 @@ class enco:
             if self.precount != self.count:
                 #now_time = time.time() - initial_time
                 self.log[num] = [now_time, self.count]
+                print ("time: %f    count: %d" % (self.log[num][0], self.log[num][1]))
                 num += 1
-
+                
             # write data if no moving for 3 sec and num > 10000
-            if (time.time() > now_time + 3) and (num > 10000):
+            if (time.time() > now_time + 3) and (num > 300):
                 print(">> writing data so far...")
                 self.writer.writerows([i for i in self.log if not (i == [0.0, 0])])     # write data except element [0.0, 0]
                 print(">> ok, all done.")
                 num = 0
-
+                
             # output signal
             if (sig == 0) and (self.count >= self.lim_pul):
                 gpio.output(self.pin_signal, gpio.HIGH)
@@ -97,7 +98,7 @@ class enco:
 if __name__ == "__main__":
 
     try:
-        enc = enco(14, 15, 5, 25, 25, 90)
+        enc = enco(14, 15, 5, 25, 25, 1)
         enc.go()
     except KeyboardInterrupt:
         enc.end()
