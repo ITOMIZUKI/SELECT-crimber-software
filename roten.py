@@ -100,8 +100,8 @@ class enco:
 if __name__ == "__main__":
 
     try:
+        gpio.output(self.pin_signal, gpio.LOW)
         enc = enco(14, 15, 5, 25, 25, 1)
         enc.go()
-        print("check out")
     except KeyboardInterrupt:
         enc.end()
