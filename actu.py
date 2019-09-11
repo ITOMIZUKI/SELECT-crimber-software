@@ -31,16 +31,16 @@ class actu:
         self.ser_2 = gpio.PWM(self.pin_servo_2, initial_freq)
         sleep(0.5)
 
-        self.esc.start(0)
+        self.esc.start(5)
         self.ser_1.start(self.breakon_value)
         self.ser_2.start(self.breakon_value)
-        sleep(0.5)
+        sleep(5)
 
         print(">> setup of pwms is done.")
 
     # esc
     def new_throttle(self, throttle):                                   # change throttle value(0 ~ 100)
-        duty = round((throttle + 110.702498) / 19.267136, 2)            # change throttle value to duty
+        duty = round((throttle + 110.702498) / 19.267136, 2) - 0.1      # change throttle value to duty
         print(">> change throttle value.")
         self.esc.ChangeDutyCycle(duty)
         print("now duty : %f" % duty)
@@ -89,6 +89,35 @@ class actu:
         self.ser_1.stop()
         self.ser_2.stop()
         sleep(0.5)
-        gpio.cleanup(self.pin_esc, self.pin_servo_1, self.pin_servo_2)
+        gpio.cleanup([self.pin_esc, self.pin_servo_1, self.pin_servo_2])
         sleep(0.5)
         print(">> pwms stopped.")
+
+
+if __name__ == "__main__":
+
+    try:
+        act = actu(12, 13, 18, 50)
+
+        num = [5, 4, 3, 2, 1]
+        for i in num:
+            print(i)
+            sleep(1)
+
+        for i in range(3):
+            act.new_break(2.5)
+            sleep(0.5)
+
+            act.new_break(7.25)
+            sleep(0.5)
+
+            act.new_break(12)
+            sleep(0.5)
+
+            act.new_break(7.25)
+            sleep(0.5)
+
+        act.end()
+
+    finally:
+        act.end()
